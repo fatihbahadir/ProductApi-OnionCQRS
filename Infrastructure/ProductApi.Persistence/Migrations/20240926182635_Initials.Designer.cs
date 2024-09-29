@@ -2,9 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProductApi.Persistence.Context;
 
 #nullable disable
@@ -12,8 +12,8 @@ using ProductApi.Persistence.Context;
 namespace ProductApi.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240914115917_Update1")]
-    partial class Update1
+    [Migration("20240926182635_Initials")]
+    partial class Initials
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,28 +21,28 @@ namespace ProductApi.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("ProductApi.Domain.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -52,23 +52,23 @@ namespace ProductApi.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 897, DateTimeKind.Local).AddTicks(2792),
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 191, DateTimeKind.Utc).AddTicks(260),
                             IsDeleted = false,
-                            Name = "Home, Kids & Music"
+                            Name = "Health"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 897, DateTimeKind.Local).AddTicks(2922),
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 191, DateTimeKind.Utc).AddTicks(300),
                             IsDeleted = false,
-                            Name = "Garden"
+                            Name = "Shoes"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 897, DateTimeKind.Local).AddTicks(2930),
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 191, DateTimeKind.Utc).AddTicks(300),
                             IsDeleted = true,
-                            Name = "Electronics"
+                            Name = "Baby, Grocery & Movies"
                         });
                 });
 
@@ -76,25 +76,25 @@ namespace ProductApi.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("ParentId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Priority")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -104,7 +104,7 @@ namespace ProductApi.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 897, DateTimeKind.Local).AddTicks(5893),
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 191, DateTimeKind.Utc).AddTicks(1270),
                             IsDeleted = false,
                             Name = "Elektrik",
                             ParentId = 0,
@@ -113,7 +113,7 @@ namespace ProductApi.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 897, DateTimeKind.Local).AddTicks(5895),
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 191, DateTimeKind.Utc).AddTicks(1320),
                             IsDeleted = false,
                             Name = "Moda",
                             ParentId = 0,
@@ -122,7 +122,7 @@ namespace ProductApi.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 897, DateTimeKind.Local).AddTicks(5896),
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 191, DateTimeKind.Utc).AddTicks(1330),
                             IsDeleted = false,
                             Name = "Bilgisayar",
                             ParentId = 1,
@@ -131,7 +131,7 @@ namespace ProductApi.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 897, DateTimeKind.Local).AddTicks(5898),
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 191, DateTimeKind.Utc).AddTicks(1330),
                             IsDeleted = false,
                             Name = "Kadın",
                             ParentId = 2,
@@ -143,26 +143,26 @@ namespace ProductApi.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -175,28 +175,28 @@ namespace ProductApi.Persistence.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 900, DateTimeKind.Local).AddTicks(372),
-                            Description = "Masanın ea voluptate neque adipisci.",
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 192, DateTimeKind.Utc).AddTicks(3030),
+                            Description = "Qui sandalye dışarı gazete tempora.",
                             IsDeleted = false,
-                            Title = "Sed."
+                            Title = "Ona."
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 900, DateTimeKind.Local).AddTicks(410),
-                            Description = "Enim beatae suscipit kalemi sunt.",
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 192, DateTimeKind.Utc).AddTicks(3090),
+                            Description = "Et aut quia dolores düşünüyor.",
                             IsDeleted = true,
-                            Title = "Doloremque dignissimos."
+                            Title = "Consequatur enim."
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 900, DateTimeKind.Local).AddTicks(438),
-                            Description = "Aliquam odio velit consectetur gazete.",
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 192, DateTimeKind.Utc).AddTicks(3110),
+                            Description = "Lambadaki iusto batarya sinema ipsa.",
                             IsDeleted = false,
-                            Title = "Totam."
+                            Title = "Eos."
                         });
                 });
 
@@ -204,32 +204,32 @@ namespace ProductApi.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BrandId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -242,33 +242,33 @@ namespace ProductApi.Persistence.Migrations
                         {
                             Id = 1,
                             BrandId = 1,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 904, DateTimeKind.Local).AddTicks(544),
-                            Description = "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
-                            Discount = 9.576946570086210m,
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 193, DateTimeKind.Utc).AddTicks(8690),
+                            Description = "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design",
+                            Discount = 4.32962881448280m,
                             IsDeleted = false,
-                            Price = 503.36m,
-                            Title = "Small Concrete Salad"
+                            Price = 156.46m,
+                            Title = "Licensed Cotton Chips"
                         },
                         new
                         {
                             Id = 2,
                             BrandId = 3,
-                            CreatedDate = new DateTime(2024, 9, 14, 14, 59, 16, 904, DateTimeKind.Local).AddTicks(575),
-                            Description = "The Football Is Good For Training And Recreational Purposes",
-                            Discount = 2.444047654246490m,
+                            CreatedDate = new DateTime(2024, 9, 26, 18, 26, 35, 193, DateTimeKind.Utc).AddTicks(8720),
+                            Description = "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+                            Discount = 5.540725792962850m,
                             IsDeleted = false,
-                            Price = 890.44m,
-                            Title = "Sleek Steel Sausages"
+                            Price = 486.15m,
+                            Title = "Rustic Granite Pants"
                         });
                 });
 
             modelBuilder.Entity("ProductApi.Domain.Entities.ProductCategory", b =>
                 {
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("ProductId", "CategoryId");
 

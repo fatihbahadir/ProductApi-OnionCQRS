@@ -1,15 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductApi.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
 
 namespace ProductApi.Persistence.Context
 {
-    public class AppDbContext : DbContext {
+    public class AppDbContext : IdentityDbContext<User, Role, Guid> {
         public AppDbContext() {
             
         }
@@ -30,6 +28,22 @@ namespace ProductApi.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+                v => v.ToUniversalTime(), 
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc) 
+            );
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    if (property.ClrType == typeof(DateTime))
+                    {
+                        property.SetValueConverter(dateTimeConverter);
+                    }
+                }
+            }
+            
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
